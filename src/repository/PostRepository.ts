@@ -4,7 +4,7 @@
 
 // 1. Importer le client Supabase et le modele Post
 import {supabaseClient} from '../repository/db/supabaseClient'
-import {Post} from '../domain/Post'
+import {Post, NewPostInput} from '../domain/Post'
 
 // 2. Definir la classe PostRepository
 export class PostRepository {
@@ -27,5 +27,20 @@ export class PostRepository {
         
         // 3.3 Retourner les articles recuperes ou un tableau vide si aucun article n'est trouve
         return (data as Post[]) || []
+    }
+
+    // 4. Methode pour soumettre un article de blog
+    async pushPost(newPost : NewPostInput){
+        // 4.1 On enregistre l'article dans la DB
+        const {data, error} = await supabaseClient 
+            .from("posts")
+            .insert(newPost)
+
+        // 4.2 En cas d'erreur
+        if (error) {
+            console.error('Erreur lors de l\'enregistrement de l\'article dans la base de donnee:', error);
+            throw new Error(error.message)
+        }
+
     }
 }
