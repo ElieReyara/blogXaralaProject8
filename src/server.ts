@@ -30,18 +30,22 @@ const postService = new PostService(postRepository);
 const postController = new PostController(postService);
 
 // 4. On définit les routes et on les lie aux méthodes du PostController
+// Test basique pour vérifier que le serveur répond
+app.get("/test", (req: Request, res: Response) => {
+    res.status(200).json({ message: "Serveur fonctionne!" });
+});
+
 // Quand une requête GET est faite à /posts, on appelle la méthode getAllPosts du PostController
-app.get("/posts", (req: Request, res: Response) => postController.getAllPosts(req, res));
+app.get("/posts", (req: Request, res: Response) => {
+    console.log("Route GET /posts appelée");
+    postController.getAllPosts(req, res);
+});
 
-// Quand une requete POST est faite a /posts/create, on appele pushPost
-const mockRequest = httpMocks.createRequest({
-    method: 'POST',
-    url: '/posts/create',
-    body: fakePosts[0]
-}); 
-
-const mockResponse = httpMocks.createResponse();
-app.post("//posts/create", (req: Request, res: Response) => postController.pushPost(req = mockRequest, res))
+// Quand une requête POST est faite à /posts/create, on appelle pushPost
+app.post("/posts/create", (req: Request, res: Response) => {
+    console.log("Route POST /posts/create appelée", req.body);
+    postController.pushPost(req, res);
+});
 
 // 5. On démarre le serveur sur le port défini dans les variables d'environnement ou 3000 par défaut
 const PORT = process.env.PORT || 3000;

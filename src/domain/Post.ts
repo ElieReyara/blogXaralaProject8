@@ -15,5 +15,5 @@ export interface Post {
 export interface NewPostInput{
     title: string
     content: string
-    author: number
+    author: string
 }
