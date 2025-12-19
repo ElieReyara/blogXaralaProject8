@@ -14,6 +14,8 @@ export class PostController{
         this.postService = postService;
     }
 
+    // ! METHOD CLASS
+
     // 3. Methode pour gerer la requete GET /posts
     async getAllPosts(req : Request, res : Response)  : Promise<void>{
         try{
@@ -26,5 +28,17 @@ export class PostController{
             // Gérer les erreurs ici
             res.status(500).json({ message: "Erreur serveur" });
         }
-    }       
+    }  
+    
+    // 4. Methode pour gerer la requete POST
+    async pushPost(req : Request, res : Response){
+        try {
+            // 4.1 J'appelle la methode pushPost du PostService pour creer un nouvel article
+            await this.postService.pushPost(req.body);
+            // 4.2 Je renvoie une reponse de succes au client
+            res.status(201).json({ message: "Article créé avec succès" });
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur" });
+        }
+    }
 }

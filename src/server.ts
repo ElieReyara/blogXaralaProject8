@@ -24,6 +24,9 @@ const postController = new PostController(postService);
 // Quand une requête GET est faite à /posts, on appelle la méthode getAllPosts du PostController
 app.get("/posts", (req: Request, res: Response) => postController.getAllPosts(req, res));
 
+// Quand une requete POST est faite a /posts/create, on appele pushPost
+app.post("//posts/create", (req: Request, res: Response) => postController.pushPost(req, res))
+
 // 5. On démarre le serveur sur le port défini dans les variables d'environnement ou 3000 par défaut
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
