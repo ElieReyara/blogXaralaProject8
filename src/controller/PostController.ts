@@ -24,6 +24,7 @@ export class PostController{
 
             // 3.2 Je renvoie les articles au client avec le code 200
             res.status(200).json(posts);
+            console.log('Articles recupere avec succes au niveau du controllers');
         } catch (error) {
             // Gérer les erreurs ici
             res.status(500).json({ message: "Erreur serveur" });
@@ -37,6 +38,7 @@ export class PostController{
             await this.postService.pushPost(req.body);
             // 4.2 Je renvoie une reponse de succes au client
             res.status(201).json({ message: "Article créé avec succès" });
+            console.log('Articles enregistre avec succes au niveau du controllers');
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur" });
         }

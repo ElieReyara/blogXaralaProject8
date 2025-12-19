@@ -3,9 +3,18 @@
 import express, { Request, Response } from "express";
 import * as dotenv from 'dotenv';
 
+// httpMocks pour cree des donnes fictives
+import httpMocks from 'node-mocks-http';
+
 import { PostController } from "./controller/PostController";
 import { PostService } from "./service/PostService";
 import { PostRepository } from "./repository/PostRepository";
+
+// Donne fictive pour l'exemple
+const fakePosts = [
+    { title: "Premier article", content: "Contenu du premier article", author : "Alice" },
+    { title: "Deuxième article", content: "Contenu du deuxième article", author : "Alice" }
+];
 
 dotenv.config();
 const app = express();
@@ -25,7 +34,14 @@ const postController = new PostController(postService);
 app.get("/posts", (req: Request, res: Response) => postController.getAllPosts(req, res));
 
 // Quand une requete POST est faite a /posts/create, on appele pushPost
-app.post("//posts/create", (req: Request, res: Response) => postController.pushPost(req, res))
+const mockRequest = httpMocks.createRequest({
+    method: 'POST',
+    url: '/posts/create',
+    body: fakePosts[0]
+}); 
+
+const mockResponse = httpMocks.createResponse();
+app.post("//posts/create", (req: Request, res: Response) => postController.pushPost(req = mockRequest, res))
 
 // 5. On démarre le serveur sur le port défini dans les variables d'environnement ou 3000 par défaut
 const PORT = process.env.PORT || 3000;
