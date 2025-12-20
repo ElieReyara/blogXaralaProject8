@@ -46,9 +46,9 @@ export class PostController{
             }
             // 4.3 En cas d'echec, je renvoie une reponse d'erreur(erreur liee a la base de donnee)
             // Ca c'est pour le cote client
-            res.status(400).json({ message: "Erreur lors de la création du nouvel article" });
+            res.status(400).json({ message: "Erreur lors de la création du nouvel article : " + result.message });
             // Ca c'est pour le cote serveur
-            console.log('Erreur lors de la création du nouvel article au niveau du controller');
+            console.log('Erreur lors de la création du nouvel article au niveau du controller : ' + result.message);
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur" });
         }

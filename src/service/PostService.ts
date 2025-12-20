@@ -27,7 +27,12 @@ export class PostService{
 
     // 5. Methode pour enregistrer(creer) un nouvel article
     async pushPost(newPost : NewPostInput) : Promise<{success: boolean, message: string}>{
-        // 5.1 J'appelle la methode pour creer l'article
+        // 5.1 Logique metier ou check des infos avant de creer l'article
+        // Je verifie que le titre et le contenu ne sont pas vides
+        if(!newPost.title.trim() || !newPost.content.trim()){
+            return {success: false, message: "Le titre et le contenu sont obligatoires."};
+        }
+        // 5.2 J'appelle la methode pour creer l'article
         return this.postRepository.pushPost(newPost);
     }
 
