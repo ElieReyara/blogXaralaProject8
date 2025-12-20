@@ -1,9 +1,3 @@
-POST http://localhost:3000/posts/create
+GET http://localhost:3000/posts
 Content-Type: application/json
 
-{
-    "title": "Nouveau Post",
-    "content": "Ceci est le contenu du nouveau post.",
-    "author": "Auteur Exemple",
-    "author_id": 10
-}

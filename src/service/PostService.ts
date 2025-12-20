@@ -4,6 +4,7 @@
 // 1. Importer le PostRepository et le modele Post
 import { PostRepository } from "../repository/PostRepository";
 import { Post, NewPostInput } from "../domain/Post";
+import { GetAllPostsResult } from "../generalType";
 
 
 // 2. Definir la classe PostService
@@ -19,7 +20,7 @@ export class PostService{
     // !METHODE CLASS
 
     // 4. Methode pour recuperer tous les articles de blog(Logique metier)
-    async getAllPosts() : Promise<Post[]>{
+    async getAllPosts() : Promise<GetAllPostsResult>{
         // 4.1 J'appelle la methode getAllPosts du PostRepository pour recuperer les articles
         return this.postRepository.getAllPosts();
     }

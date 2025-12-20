@@ -5,6 +5,7 @@
 // 1. Importer le client Supabase et le modele Post
 import {supabaseClient} from '../repository/db/supabaseClient'
 import {Post, NewPostInput} from '../domain/Post'
+import { GetAllPostsResult } from '../generalType';
 
 // 2. Definir la classe PostRepository
 export class PostRepository {
@@ -12,21 +13,21 @@ export class PostRepository {
   private client = supabaseClient
 
     // 3. Methode pour recuperer tous les articles de blog
-    async getAllPosts(): Promise<Post[]> {
+    async getAllPosts(): Promise<GetAllPostsResult> {
 
         // 3.1 Effectuer la requete pour recuperer tous les articles
-        const {data, error} = await supabaseClient
-            .from("posts")
+        const {data, error} = await this.client
+            .from(this.tableName)
             .select('*')
 
         // 3.2 Gérer les erreurs potentielles
         if (error) {
-            console.error('Erreur lors de la récupération des articles:', error);
-            throw new Error(error.message)
+            console.error('Erreur lors de la récupération des articles depuis la base de données', error);
+            return { success: false, error: error.message };
         }
         
         // 3.3 Retourner les articles recuperes ou un tableau vide si aucun article n'est trouve
-        return (data as Post[]) || []
+        return { success: true, data: (data as Post[]) || [] };
     }
 
     // 4. Methode pour soumettre un article de blog

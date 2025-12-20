@@ -20,13 +20,16 @@ export class PostController{
     async getAllPosts(req : Request, res : Response)  : Promise<void>{
         try{
             // 3.1 J'appelle la methode getAllPosts du PostService pour recuperer les articles
-            const posts = await this.postService.getAllPosts();
+            const result = await this.postService.getAllPosts();
 
-            // 3.2 Je renvoie les articles au client avec le code 200
-            res.status(200).json(posts);
-            console.log('Articles recupere avec succes au niveau du controllers');
+            if (result.success) {
+                res.status(200).json({ posts: result.data, message: "Articles recupere avec succes"});
+                console.log('Articles recupere avec succes au niveau du controllers');
+            } else {
+                console.log('Erreur lors de la recuperation des articles(level controllers)');
+                res.status(500).json({ message: result.error });
+            }
         } catch (error) {
-            // Gérer les erreurs ici
             res.status(500).json({ message: "Erreur serveur" });
         }
     }  
