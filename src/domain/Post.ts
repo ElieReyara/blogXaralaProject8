@@ -16,4 +16,5 @@ export interface NewPostInput{
     title: string
     content: string
     author: string
+    author_id: number
 }

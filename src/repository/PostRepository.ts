@@ -35,11 +35,12 @@ export class PostRepository {
         const {data, error} = await supabaseClient 
             .from("posts")
             .insert(newPost)
-        console.error('Article enregistre avec succes:', data);
         // 4.2 En cas d'erreur
         if (error) {
             console.error('Erreur lors de l\'enregistrement de l\'article dans la base de donnee:', error);
             throw new Error(error.message)
+        }else{
+            console.log('Article enregistre avec succes dans la base de donnee');
         }
 
     }

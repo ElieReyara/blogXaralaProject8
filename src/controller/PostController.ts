@@ -37,8 +37,8 @@ export class PostController{
             // 4.1 J'appelle la methode pushPost du PostService pour creer un nouvel article
             await this.postService.pushPost(req.body);
             // 4.2 Je renvoie une reponse de succes au client
-            res.status(201).json({ message: "Article créé avec succès" });
-            console.log('Articles enregistre avec succes au niveau du controllers');
+            res.status(201).json({ message: "Nouvel article reçu avec succès au niveau du controller" });
+            console.log('Nouvel article reçu avec succès au niveau du controller');
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur" });
         }
