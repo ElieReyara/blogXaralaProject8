@@ -30,18 +30,16 @@ export class PostRepository {
     }
 
     // 4. Methode pour soumettre un article de blog
-    async pushPost(newPost : NewPostInput){
+    async pushPost(newPost : NewPostInput) : Promise<{success: boolean, message: string}> {
         // 4.1 On enregistre l'article dans la DB
         const {data, error} = await supabaseClient 
             .from("posts")
             .insert(newPost)
-        // 4.2 En cas d'erreur
         if (error) {
-            console.error('Erreur lors de l\'enregistrement de l\'article dans la base de donnee:', error);
-            throw new Error(error.message)
-        }else{
-            console.log('Article enregistre avec succes dans la base de donnee');
+            console.error('Erreur lors de l\'enregistrement de l\'article: dans la Base de Donnees', error);
+            return { success: false, message: error.message};
         }
-
+        console.log('Article enregistre avec succes dans la base de donnee :', data);
+        return { success: true, message: 'Article enregistre avec succes'};
     }
 }

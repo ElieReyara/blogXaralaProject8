@@ -25,9 +25,9 @@ export class PostService{
     }
 
     // 5. Methode pour enregistrer(creer) un nouvel article
-    async pushPost(newPost : NewPostInput) {
+    async pushPost(newPost : NewPostInput) : Promise<{success: boolean, message: string}>{
         // 5.1 J'appelle la methode pour creer l'article
-        this.postRepository.pushPost(newPost);
+        return this.postRepository.pushPost(newPost);
     }
 
 

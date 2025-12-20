@@ -35,10 +35,17 @@ export class PostController{
     async pushPost(req : Request, res : Response){
         try {
             // 4.1 J'appelle la methode pushPost du PostService pour creer un nouvel article
-            await this.postService.pushPost(req.body);
+            const result = await this.postService.pushPost(req.body);
             // 4.2 Je renvoie une reponse de succes au client
-            res.status(201).json({ message: "Nouvel article reçu avec succès au niveau du controller" });
-            console.log('Nouvel article reçu avec succès au niveau du controller');
+            if (result.success) {
+                res.status(201).json({ message: result.message });
+                return;
+            }
+            // 4.3 En cas d'echec, je renvoie une reponse d'erreur(erreur liee a la base de donnee)
+            // Ca c'est pour le cote client
+            res.status(400).json({ message: "Erreur lors de la création du nouvel article" });
+            // Ca c'est pour le cote serveur
+            console.log('Erreur lors de la création du nouvel article au niveau du controller');
         } catch (error) {
             res.status(500).json({ message: "Erreur serveur" });
         }
