@@ -73,4 +73,19 @@ export class PostRepository {
         }
         return { success: true, data: data as Post };
     }
+
+    // 7. Methode pour supprimer un article de blog
+    async deletePost(postId : number) : Promise<{success: boolean, message: string}> {
+        // 7.1 On supprime l'article dans la DB
+        const {data, error} = await this.client 
+            .from(this.tableName)
+            .delete()
+            .eq('id', postId)
+        if (error) {
+            console.error('Erreur lors de la suppression de l\'article dans la Base de Donnees', error);
+            return { success: false, message: error.message};
+        }
+        console.log('Article supprime avec succes dans la base de donnee :', postId);
+        return { success: true, message: 'Article supprime avec succes'};
+    }
 }

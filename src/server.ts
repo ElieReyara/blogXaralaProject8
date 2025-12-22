@@ -53,6 +53,12 @@ app.put("/posts/:id", (req: Request, res: Response) => {
     postController.updatePost(req, res);
 });
 
+// Quand une requête DELETE est faite à /posts/:id, on appelle deletePost
+app.delete("/posts/:id", (req: Request, res: Response) => {
+    console.log(`Route DELETE /posts/${req.params.id} appelée`);
+    postController.deletePost(req, res);
+});
+
 // 5. On démarre le serveur sur le port défini dans les variables d'environnement ou 3000 par défaut
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

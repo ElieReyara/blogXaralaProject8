@@ -70,4 +70,20 @@ export class PostController{
             res.status(500).json({ message: "Erreur serveur" });
         }
     }
-}
+
+    // 6. Methode pour gerer la requete DELETE /posts/:id
+    async deletePost(req : Request, res : Response){
+        try{
+            const postId = parseInt(req.params.id, 10);
+            // 6.1 J'appelle la methode deletePost du PostService pour supprimer l'article
+            const result = await this.postService.deletePost(postId);
+            if (result.success) {
+                res.status(200).json({ message: result.message });
+                return;
+            }
+            res.status(400).json({ message: "Erreur lors de la suppression de l'article : " + result.message });
+            console.log('Erreur lors de la suppression de l\'article au niveau du controller : ' + result.message);
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur" });
+        }
+    }}

@@ -54,7 +54,17 @@ export class PostService{
         return this.postRepository.updatePost(postId, updatedPost);
     }
 
-    
+    // 7. Methode pour supprimer un article existant 
+    async deletePost(postId : number) : Promise<{success: boolean, message: string}>{
+        // 7.1 Logique metier ou check des infos avant de supprimer l'article
+        // L'artcile existe t-il ? (a gerer dans le controller ou repository selon le besoin)
+        const isHere = await this.postRepository.getPostById(postId);
+        if (!isHere.success) {
+            return {success: false, message: "L'article avec l'ID spécifié n'existe pas."};
+        }
+        // 7.2 J'appelle la methode pour supprimer l'article
+        return this.postRepository.deletePost(postId);
+    }
 
 
 

@@ -1,7 +1,2 @@
-PUT http://localhost:3000/posts/1
+DELETE  http://localhost:3000/posts/2
 Content-Type: application/json
-
-{
-    "title": "Titre modifié de mon post",
-    "content": "Ceci modifie de mon post."
-}
