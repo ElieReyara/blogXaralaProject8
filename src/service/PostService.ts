@@ -36,5 +36,26 @@ export class PostService{
         return this.postRepository.pushPost(newPost);
     }
 
+    // 6. Methode pour modifier un article existant
+    async updatePost(postId : number, updatedPost : Partial<NewPostInput>) : Promise<{success: boolean, message: string}>{
+        // 6.1 Logique metier ou check des infos avant de modifier l'article
+        // L'artcile existe t-il ? (a gerer dans le controller ou repository selon le besoin)
+        const isHere = await this.postRepository.getPostById(postId);
+        if (!isHere.success) {
+            return {success: false, message: "L'article avec l'ID spécifié n'existe pas."};
+        }
+        if(updatedPost.title !== undefined && !updatedPost.title.trim()){
+            return {success: false, message: "Le titre ne peut pas etre vide."};
+        }
+        if(updatedPost.content !== undefined && !updatedPost.content.trim()){
+            return {success: false, message: "Le contenu ne peut pas etre vide."};
+        }
+        // 6.2 J'appelle la methode pour modifier l'article
+        return this.postRepository.updatePost(postId, updatedPost);
+    }
+
+    
+
+
 
 }

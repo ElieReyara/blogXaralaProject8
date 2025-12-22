@@ -1,7 +1,7 @@
-POST  http://localhost:3000/posts/create
+PUT http://localhost:3000/posts/1
 Content-Type: application/json
 
 {
-    "title": "",
-    "content": "Ceci est le contenu de mon nouveau post."
+    "title": "Titre modifié de mon post",
+    "content": "Ceci modifie de mon post."
 }

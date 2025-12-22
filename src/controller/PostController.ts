@@ -53,4 +53,21 @@ export class PostController{
             res.status(500).json({ message: "Erreur serveur" });
         }
     }
+
+    // 5. Methode pour gerer la requete PUT /posts/:id
+    async updatePost(req : Request, res : Response){
+        try{
+            const postId = parseInt(req.params.id, 10);
+            // 5.1 J'appelle la methode updatePost du PostService pour modifier l'article
+            const result = await this.postService.updatePost(postId, req.body);
+            if (result.success) {
+                res.status(200).json({ message: result.message });
+                return;
+            }
+            res.status(400).json({ message: "Erreur lors de la mise à jour de l'article : " + result.message });
+            console.log('Erreur lors de la mise à jour de l\'article au niveau du controller : ' + result.message);
+        } catch (error) {
+            res.status(500).json({ message: "Erreur serveur" });
+        }
+    }
 }

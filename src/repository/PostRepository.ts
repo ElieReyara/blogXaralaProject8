@@ -40,7 +40,37 @@ export class PostRepository {
             console.error('Erreur lors de l\'enregistrement de l\'article: dans la Base de Donnees', error);
             return { success: false, message: error.message};
         }
-        console.log('Article enregistre avec succes dans la base de donnee :', data);
+        console.log('Article enregistre avec succes dans la base de donnee :', newPost);
         return { success: true, message: 'Article enregistre avec succes'};
+    }
+
+    // 5. Methode pour modifier un article de blog
+    async updatePost(postId : number, updatedPost : Partial<NewPostInput>) : Promise<{success: boolean, message: string}> {
+        // 5.1 On met a jour l'article dans la DB
+        const {data, error} = await this.client 
+            .from(this.tableName)
+            .update(updatedPost)
+            .eq('id', postId)
+        if (error) {
+            console.error('Erreur lors de la mise a jour de l\'article dans la Base de Donnees', error);
+            return { success: false, message: error.message};
+        }
+        console.log('Article mis a jour avec succes dans la base de donnee :', updatedPost);
+        return { success: true, message: 'Article mis a jour avec succes'};
+    }
+
+    // 6. Methode pour recuperer un article specifique par son ID
+    async getPostById(postId : number) : Promise<{success: boolean, data?: Post, message?: string}> {
+        // 6.1 On recupere l'article dans la DB
+        const {data, error} = await this.client
+            .from(this.tableName)
+            .select('*')
+            .eq('id', postId)
+            .single()
+        if (error) {
+            console.error('Erreur lors de la recuperation de l\'article dans la Base de Donnees', error);
+            return { success: false, message: error.message};
+        }
+        return { success: true, data: data as Post };
     }
 }

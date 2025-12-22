@@ -47,6 +47,12 @@ app.post("/posts/create", (req: Request, res: Response) => {
     postController.pushPost(req, res);
 });
 
+// Quand une requête PUT est faite à /posts/:id, on appelle updatePost
+app.put("/posts/:id", (req: Request, res: Response) => {
+    console.log(`Route PUT /posts/${req.params.id} appelée`, req.body);
+    postController.updatePost(req, res);
+});
+
 // 5. On démarre le serveur sur le port défini dans les variables d'environnement ou 3000 par défaut
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
