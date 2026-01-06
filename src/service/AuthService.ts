@@ -11,9 +11,7 @@ export class AuthService{
     async signUp(email: string, password : string, username: string) : Promise<{success: boolean, message?: string, id?: string, email?: string}>{
         try {
             const data = await this.userRepository.signUp(email, password);
-
             if(!data.user) throw new Error('Echec de la creation du profil utilisateur, aucune donnee retournee.');
-
             await this.userRepository.createUserProfile(data.user.id, username);
             return {success: true, id: data.user.id, email: data.user.email};
         } catch (error) {

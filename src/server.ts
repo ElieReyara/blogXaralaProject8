@@ -10,24 +10,25 @@ import { PostController } from "./controller/PostController";
 import { PostService } from "./service/PostService";
 import { PostRepository } from "./repository/PostRepository";
 
-// Donne fictive pour l'exemple
-const fakePosts = [
-    { title: "Premier article", content: "Contenu du premier article", author : "Alice" },
-    { title: "Deuxième article", content: "Contenu du deuxième article", author : "Alice" }
-];
+import { UserRepository } from "./repository/UserRepository";
+import { AuthService } from "./service/AuthService";
+import { AuthController } from "./controller/AuthController";
 
 dotenv.config();
 const app = express();
 app.use(express.json()); // Pour qu'Express puisse lire le JSON dans les requêtes
 
-// 1. On crée une instance de PostRepository
+// 1. On crée une instance de PostRepository et de UserRepository
 const postRepository = new PostRepository();
+const userRepository = new UserRepository();
 
-// 2. On crée une instance de PostService en lui passant le PostRepository
+// 2. On crée une instance de PostService en lui passant le PostRepository et une instance d'AuthService en lui passant le UserRepository
 const postService = new PostService(postRepository);
+const authService = new AuthService();
 
-// 3. On crée une instance de PostController en lui passant le PostService
+// 3. On crée une instance de PostController en lui passant le PostService et une instance d'AuthController en lui passant l'AuthService
 const postController = new PostController(postService);
+const authController = new AuthController();
 
 // 4. On définit les routes et on les lie aux méthodes du PostController
 // Test basique pour vérifier que le serveur répond
@@ -57,6 +58,18 @@ app.put("/posts/:id", (req: Request, res: Response) => {
 app.delete("/posts/:id", (req: Request, res: Response) => {
     console.log(`Route DELETE /posts/${req.params.id} appelée`);
     postController.deletePost(req, res);
+});
+
+// Quand une requete d'inscription est faite a /auth/signup, on appelle signUp
+app.post("/auth/signup", (req: Request, res: Response) => {
+    console.log("Route POST /auth/signup appelée", req.body);
+    authController.signUp(req, res);
+});
+
+// Quand une requete de connexion est faite a /auth/signin, on appelle signIn
+app.post("/auth/signin", (req: Request, res: Response) => {
+    console.log("Route POST /auth/signin appelée", req.body);
+    authController.signIn(req, res);
 });
 
 // 5. On démarre le serveur sur le port défini dans les variables d'environnement ou 3000 par défaut

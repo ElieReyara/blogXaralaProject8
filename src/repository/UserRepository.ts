@@ -1,18 +1,23 @@
-import {supabaseClient} from '../repository/db/supabaseClient';
+import {supabaseClient} from './db/supabaseClient';
 
 
 export class UserRepository{
+    // Use the admin client explicitly to perform server-side inserts (contourne RLS)
     private supabase = supabaseClient;
 
-    async createUserProfile(userId: string, username: string) {
+    async createUserProfile(userId: any, username: string) {
         // La ligne etant creere lors de l'inscription, on met juste a jour le username
         const {data, error} = await this.supabase
             .from('usersProfile')
-            .update({username: username})
-            .eq('id', userId);
+            .insert({
+                user_id: userId,  // Supabase convertira automatiquement en uuid
+                username: username
+            })
+            .select()
+            .single();
 
         if (error) throw error;
-        if (!data) throw new Error('Profil utilisateur non trouvé');
+        if (!data) throw new Error('Profil utilisateur non créé');
 
         return data;
     }

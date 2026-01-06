@@ -1,2 +1,46 @@
-DELETE  http://localhost:3000/posts/2
+### Test du serveur
+GET http://localhost:3000/test
+
+### Inscription (signup)
+POST http://localhost:3000/auth/signup
 Content-Type: application/json
+
+{
+    "email": "cerechtv@gmail.com",
+    "password": "monMotDePasse123",
+    "username": "johndoe"
+}
+
+### Connexion (signin)
+POST http://localhost:3000/auth/signin
+Content-Type: application/json
+
+{
+    "email": "cerechtv@gmail.com",
+    "password": "monMotDePasse123"
+}
+
+### Récupérer tous les posts
+GET http://localhost:3000/posts
+
+### Créer un post
+POST http://localhost:3000/posts/create
+Content-Type: application/json
+
+{
+    "title": "Mon premier article",
+    "content": "Voici le contenu de mon article",
+    "userId": "votre-user-id-ici"
+}
+
+### Modifier un post (remplacer :id par l'ID réel)
+PUT http://localhost:3000/posts/123
+Content-Type: application/json
+
+{
+    "title": "Titre modifié",
+    "content": "Contenu modifié"
+}
+
+### Supprimer un post (remplacer :id par l'ID réel)
+DELETE http://localhost:3000/posts/123
