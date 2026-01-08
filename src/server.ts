@@ -13,6 +13,7 @@ import { PostRepository } from "./repository/PostRepository";
 import { UserRepository } from "./repository/UserRepository";
 import { AuthService } from "./service/AuthService";
 import { AuthController } from "./controller/AuthController";
+import { authMiddleware } from "./middleware/authMiddleware";
 
 dotenv.config();
 const app = express();
@@ -43,7 +44,7 @@ app.get("/posts", (req: Request, res: Response) => {
 });
 
 // Quand une requête POST est faite à /posts/create, on appelle pushPost
-app.post("/posts/create", (req: Request, res: Response) => {
+app.post("/posts/create", authMiddleware, (req: Request, res: Response) => {
     console.log("Route POST /posts/create appelée", req.body);
     postController.pushPost(req, res);
 });
