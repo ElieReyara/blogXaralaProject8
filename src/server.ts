@@ -3,9 +3,6 @@
 import express, { Request, Response } from "express";
 import * as dotenv from 'dotenv';
 
-// httpMocks pour cree des donnes fictives
-import httpMocks from 'node-mocks-http';
-
 import { PostController } from "./controller/PostController";
 import { PostService } from "./service/PostService";
 import { PostRepository } from "./repository/PostRepository";

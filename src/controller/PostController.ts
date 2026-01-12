@@ -38,7 +38,15 @@ export class PostController{
     async pushPost(req : Request, res : Response){
         try {
             // 4.1 J'appelle la methode pushPost du PostService pour creer un nouvel article
-            const result = await this.postService.pushPost(req.body);
+            const input = {
+                title: req.body.title,
+                content: req.body.content,
+                author: req.body.author,
+                author_id: (req as any).user.id // L'ID vient du badge (token)
+            };
+
+            const result = await this.postService.pushPost(input);
+
             // 4.2 Je renvoie une reponse de succes au client
             if (result.success) {
                 res.status(201).json({ message: result.message });

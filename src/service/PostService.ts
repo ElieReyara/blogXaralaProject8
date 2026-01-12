@@ -26,14 +26,25 @@ export class PostService{
     }
 
     // 5. Methode pour enregistrer(creer) un nouvel article
-    async pushPost(newPost : NewPostInput) : Promise<{success: boolean, message: string}>{
-        // 5.1 Logique metier ou check des infos avant de creer l'article
-        // Je verifie que le titre et le contenu ne sont pas vides
-        if(!newPost.title.trim() || !newPost.content.trim()){
-            return {success: false, message: "Le titre et le contenu sont obligatoires."};
+    async pushPost(newPost: NewPostInput): Promise<{success: boolean, message: string}> {
+    
+        // 5.1 Validation (Super important : le .trim() évite les titres remplis d'espaces)
+        if (!newPost.title || !newPost.title.trim() || !newPost.content || !newPost.content.trim()) {
+            return { success: false, message: "Le titre et le contenu ne peuvent pas être vides." };
         }
-        // 5.2 J'appelle la methode pour creer l'article
-        return this.postRepository.pushPost(newPost);
+
+        if (!newPost.author_id) {
+            return { success: false, message: "L'identifiant de l'auteur est manquant." };
+        }
+
+        // 5.2 Appel au Repository avec AWAIT
+        // On utilise try/catch ici au cas où Supabase renvoie une erreur (ex: problème de connexion)
+        try {
+            const result = await this.postRepository.pushPost(newPost);
+            return result; 
+        } catch (error: any) {
+            return { success: false, message: "Erreur DB : " + error.message };
+        }
     }
 
     // 6. Methode pour modifier un article existant
