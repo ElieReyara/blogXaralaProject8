@@ -19,8 +19,11 @@ export class PostController{
     // 3. Methode pour gerer la requete GET /posts
     async getAllPosts(req : Request, res : Response)  : Promise<void>{
         try{
+            // On récupère l'ID du token pour ne lister que SES articles
+            const userId = (req as any).user.id;
+            
             // 3.1 J'appelle la methode getAllPosts du PostService pour recuperer les articles
-            const result = await this.postService.getAllPosts();
+            const result = await this.postService.getAllPosts(userId);
 
             if (result.success) {
                 res.status(200).json({ posts: result.data, message: "Articles recupere avec succes"});
@@ -66,8 +69,9 @@ export class PostController{
     async updatePost(req : Request, res : Response){
         try{
             const postId = parseInt(req.params.id, 10);
+            const userId = (req as any).user.id; // Qui demande la modif ?
             // 5.1 J'appelle la methode updatePost du PostService pour modifier l'article
-            const result = await this.postService.updatePost(postId, req.body);
+            const result = await this.postService.updatePost(postId, userId, req.body);
             if (result.success) {
                 res.status(200).json({ message: result.message });
                 return;
@@ -83,8 +87,9 @@ export class PostController{
     async deletePost(req : Request, res : Response){
         try{
             const postId = parseInt(req.params.id, 10);
+            const userId = (req as any).user.id; // Qui demande la suppression ?
             // 6.1 J'appelle la methode deletePost du PostService pour supprimer l'article
-            const result = await this.postService.deletePost(postId);
+            const result = await this.postService.deletePost(postId, userId);
             if (result.success) {
                 res.status(200).json({ message: result.message });
                 return;

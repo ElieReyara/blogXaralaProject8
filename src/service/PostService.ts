@@ -20,9 +20,9 @@ export class PostService{
     // !METHODE CLASS
 
     // 4. Methode pour recuperer tous les articles de blog(Logique metier)
-    async getAllPosts() : Promise<GetAllPostsResult>{
+    async getAllPosts(userId: string) : Promise<GetAllPostsResult>{
         // 4.1 J'appelle la methode getAllPosts du PostRepository pour recuperer les articles
-        return this.postRepository.getAllPosts();
+        return this.postRepository.getAllPosts(userId);
     }
 
     // 5. Methode pour enregistrer(creer) un nouvel article
@@ -48,7 +48,7 @@ export class PostService{
     }
 
     // 6. Methode pour modifier un article existant
-    async updatePost(postId : number, updatedPost : Partial<NewPostInput>) : Promise<{success: boolean, message: string}>{
+    async updatePost(postId : number, userId: string, updatedPost : Partial<NewPostInput>) : Promise<{success: boolean, message: string}>{
         // 6.1 Logique metier ou check des infos avant de modifier l'article
         // L'artcile existe t-il ? (a gerer dans le controller ou repository selon le besoin)
         const isHere = await this.postRepository.getPostById(postId);
@@ -66,7 +66,7 @@ export class PostService{
     }
 
     // 7. Methode pour supprimer un article existant 
-    async deletePost(postId : number) : Promise<{success: boolean, message: string}>{
+    async deletePost(postId : number, userId: string) : Promise<{success: boolean, message: string}>{
         // 7.1 Logique metier ou check des infos avant de supprimer l'article
         // L'artcile existe t-il ? (a gerer dans le controller ou repository selon le besoin)
         const isHere = await this.postRepository.getPostById(postId);

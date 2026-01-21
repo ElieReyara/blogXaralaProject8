@@ -13,12 +13,13 @@ export class PostRepository {
   private client = supabaseClient
 
     // 3. Methode pour recuperer tous les articles de blog
-    async getAllPosts(): Promise<GetAllPostsResult> {
+    async getAllPosts(userId: string): Promise<GetAllPostsResult> {
 
         // 3.1 Effectuer la requete pour recuperer tous les articles
         const {data, error} = await this.client
             .from(this.tableName)
             .select('*')
+            .eq('author_id', userId)
 
         // 3.2 Gérer les erreurs potentielles
         if (error) {

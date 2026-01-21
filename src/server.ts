@@ -35,7 +35,7 @@ app.get("/test", (req: Request, res: Response) => {
 });
 
 // Quand une requête GET est faite à /posts, on appelle la méthode getAllPosts du PostController
-app.get("/posts", (req: Request, res: Response) => {
+app.get("/posts", authMiddleware, (req: Request, res: Response) => {
     console.log("Route GET /posts appelée");
     postController.getAllPosts(req, res);
 });
@@ -47,13 +47,13 @@ app.post("/posts/create", authMiddleware, (req: Request, res: Response) => {
 });
 
 // Quand une requête PUT est faite à /posts/:id, on appelle updatePost
-app.put("/posts/:id", (req: Request, res: Response) => {
+app.put("/posts/:id", authMiddleware, (req: Request, res: Response) => {
     console.log(`Route PUT /posts/${req.params.id} appelée`, req.body);
     postController.updatePost(req, res);
 });
 
 // Quand une requête DELETE est faite à /posts/:id, on appelle deletePost
-app.delete("/posts/:id", (req: Request, res: Response) => {
+app.delete("/posts/:id", authMiddleware, (req: Request, res: Response) => {
     console.log(`Route DELETE /posts/${req.params.id} appelée`);
     postController.deletePost(req, res);
 });
